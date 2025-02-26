@@ -1,303 +1,341 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, User, Users, Building2, ArrowLeft } from 'lucide-react';
 
-// Define types for form data
-type SignUpFormData = {
-  schoolName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+type UserRole = 'student' | 'teacher' | 'admin';
+type AuthView = 'login' | 'signup';
 
 type LoginFormData = {
   email: string;
   password: string;
+  role: UserRole;
 };
 
-// Define props for SignUp component
-type SignUpProps = {
-  onNavigateToLogin: () => void;
-  onSignUp: (formData: SignUpFormData) => void;
+type SignUpFormData = {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  role: UserRole;
+  studentId?: string;  // For students
+  teacherId?: string;  // For teachers
+  employeeId?: string; // For admins
 };
 
-// Define props for Login component
-type LoginProps = {
-  onNavigateToSignUp: () => void;
-  onLogin: (formData: LoginFormData) => void;
-};
-
-// SignUp Component
-const SignUp: React.FC<SignUpProps> = ({ onNavigateToLogin, onSignUp }) => {
-  const [formData, setFormData] = useState<SignUpFormData>({
-    schoolName: '',
+const RoleBasedAuth = () => {
+  const [currentView, setCurrentView] = useState<AuthView>('login');
+  const [loginData, setLoginData] = useState<LoginFormData>({
+    email: '',
+    password: '',
+    role: 'student'
+  });
+  const [signupData, setSignupData] = useState<SignUpFormData>({
+    fullName: '',
     email: '',
     password: '',
     confirmPassword: '',
+    role: 'student'
   });
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSignUp(formData);
-  };
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-medium text-gray-900">Welcome, xyz schl</h2>
-          <p className="mt-2 text-gray-600">It is our great pleasure to have you on board!</p>
-        </div>
-
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            <div>
-              <input
-                type="text"
-                placeholder="Enter the name of school"
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                value={formData.schoolName}
-                onChange={(e) => setFormData({ ...formData, schoolName: (e.target as HTMLInputElement).value })}
-
-              />
-            </div>
-            <div>
-              <input
-                type="email"
-                placeholder="Enter the school email"
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
-            </div>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Choose a password"
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
-            <div className="relative">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                placeholder="Confirm password"
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: (e.target as HTMLInputElement).value })}
-
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Next <ArrowRight className="ml-2" size={20} />
-            </button>
-          </div>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Already have an account?{' '}
-              <button
-                type="button"
-                onClick={onNavigateToLogin}
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                Sign in
-              </button>
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-500">or</span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-          >
-            <img src="/api/placeholder/20/20" alt="Google logo" className="mr-2" />
-            Continue with Google
-          </button>
-        </form>
-
-        {/* Progress Indicator */}
-        <div className="mt-8">
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col items-center">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">✓</div>
-              <p className="mt-2 text-xs text-blue-500">Your details</p>
-              <p className="text-xs text-gray-500">Name and email</p>
-            </div>
-            <div className="flex-1 h-1 mx-4 bg-blue-200"></div>
-            <div className="flex flex-col items-center">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">2</div>
-              <p className="mt-2 text-xs text-blue-500">Choose a password</p>
-              <p className="text-xs text-gray-500">Secure password</p>
-            </div>
-            <div className="flex-1 h-1 mx-4 bg-gray-200"></div>
-            <div className="flex flex-col items-center">
-              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">4</div>
-              <p className="mt-2 text-xs text-gray-500">Upload documents</p>
-              <p className="text-xs text-gray-500">For verification</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Login Component
-const Login: React.FC<LoginProps> = ({ onNavigateToSignUp, onLogin }) => {
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    password: '',
-  });
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onLogin(formData);
-  };
-
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-medium text-gray-900">Login</h2>
-          <p className="mt-2 text-gray-600">Welcome back!</p>
-        </div>
-
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            <div>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: (e.target as HTMLInputElement).value })}
-
-              />
-            </div>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: (e.target as HTMLInputElement).value })}
-
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Sign in
-            </button>
-          </div>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
-              <button
-                type="button"
-                onClick={onNavigateToSignUp}
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                Sign up
-              </button>
-            </p>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-gray-50 text-gray-500">or</span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-          >
-            <img src="/api/placeholder/20/20" alt="Google logo" className="mr-2" />
-            Continue with Google
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-// Main Auth Flow Component
-const AuthFlow: React.FC = () => {
-  const [view, setView] = useState<'login' | 'signup'>('login');
-
-  const handleLogin = (formData: LoginFormData) => {
-    console.log('Login:', formData);
+    console.log('Login attempt:', loginData);
     // Add your login logic here
   };
 
-  const handleSignUp = (formData: SignUpFormData) => {
-    console.log('Sign up:', formData);
+  const handleSignupSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (signupData.password !== signupData.confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+    console.log('Signup attempt:', signupData);
     // Add your signup logic here
   };
 
+  const roleCards = [
+    {
+      role: 'student',
+      icon: User,
+      title: 'Student',
+      description: 'Access your courses, assignments, and grades',
+      idField: 'studentId',
+      idLabel: 'Student ID'
+    },
+    {
+      role: 'teacher',
+      icon: Users,
+      title: 'Teacher',
+      description: 'Manage classes, assignments, and student progress',
+      idField: 'teacherId',
+      idLabel: 'Teacher ID'
+    },
+    {
+      role: 'admin',
+      icon: Building2,
+      title: 'Administrator',
+      description: 'School management and administrative controls',
+      idField: 'employeeId',
+      idLabel: 'Employee ID'
+    }
+  ];
+
+  const LoginView = () => (
+    <>
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
+        <p className="mt-2 text-gray-600">Please select your role and sign in</p>
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 mt-8">
+        {roleCards.map(({ role, icon: Icon, title, description }) => (
+          <button
+            key={role}
+            onClick={() => setLoginData(prev => ({ ...prev, role: role as UserRole }))}
+
+            className={`p-4 rounded-lg text-center transition-all ${
+              loginData.role === role
+                ? 'bg-blue-100 border-2 border-blue-500'
+                : 'bg-white border border-gray-200 hover:border-blue-300'
+            }`}
+          >
+            <div className="flex justify-center">
+              <Icon
+                size={24}
+                className={loginData.role === role ? 'text-blue-500' : 'text-gray-500'}
+              />
+            </div>
+            <h3 className="mt-2 font-medium text-sm">{title}</h3>
+            <p className="mt-1 text-xs text-gray-500 hidden md:block">{description}</p>
+          </button>
+        ))}
+      </div>
+
+      <form className="mt-8 space-y-6" onSubmit={handleLoginSubmit}>
+        <div className="space-y-4">
+          <input
+            type="email"
+            required
+            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Email address"
+            value={loginData.email}
+            onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+          />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              required
+              className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Password"
+              value={loginData.password}
+              onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeOff className="h-5 w-5 text-gray-400" />
+              ) : (
+                <Eye className="h-5 w-5 text-gray-400" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <input
+              id="remember-me"
+              name="remember-me"
+              type="checkbox"
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              Remember me
+            </label>
+          </div>
+
+          <div className="text-sm">
+            <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+              Forgot password?
+            </a>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          Sign in
+        </button>
+
+        <div className="text-center">
+          <p className="text-sm text-gray-600">
+            Don't have an account?{' '}
+            <button
+              type="button"
+              onClick={() => setCurrentView('signup')}
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              Sign up
+            </button>
+          </p>
+        </div>
+      </form>
+    </>
+  );
+
+  const SignupView = () => (
+    <>
+      <div className="text-center">
+        <button
+          type="button"
+          onClick={() => setCurrentView('login')}
+          className="absolute left-4 top-4 p-2 text-gray-600 hover:text-gray-900"
+        >
+          <ArrowLeft size={20} />
+        </button>
+        <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>
+        <p className="mt-2 text-gray-600">Please select your role and fill in your details</p>
+      </div>
+
+      <div className="grid grid-cols-3 gap-4 mt-8">
+        {roleCards.map(({ role, icon: Icon, title }) => (
+          <button
+            key={role}
+            onClick={() => setSignupData(prev => ({ ...prev, role: role as UserRole }))}
+
+            className={`p-4 rounded-lg text-center transition-all ${
+              signupData.role === role
+                ? 'bg-blue-100 border-2 border-blue-500'
+                : 'bg-white border border-gray-200 hover:border-blue-300'
+            }`}
+          >
+            <div className="flex justify-center">
+              <Icon
+                size={24}
+                className={signupData.role === role ? 'text-blue-500' : 'text-gray-500'}
+              />
+            </div>
+            <h3 className="mt-2 font-medium text-sm">{title}</h3>
+          </button>
+        ))}
+      </div>
+
+      <form className="mt-8 space-y-4" onSubmit={handleSignupSubmit}>
+        <input
+          type="text"
+          required
+          className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Full Name"
+          value={signupData.fullName}
+          onChange={(e) => setSignupData({ ...signupData, fullName: e.target.value })}
+        />
+
+        <input
+          type="email"
+          required
+          className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Email address"
+          value={signupData.email}
+          onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
+        />
+
+        {roleCards.map(({ role, idField, idLabel }) => (
+          role === signupData.role && (
+            <input
+              key={idField}
+              type="text"
+              required
+              className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              placeholder={idLabel}
+              value={signupData[idField as keyof SignUpFormData] || ''}
+              onChange={(e) => setSignupData({ 
+                ...signupData, 
+                [idField as keyof SignUpFormData]: e.target.value 
+              })}
+
+            />
+          )
+        ))}
+
+        <div className="relative">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            required
+            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Password"
+            value={signupData.password}
+            onChange={(e) => setSignupData({ ...signupData, password: e.target.value })}
+          />
+          <button
+            type="button"
+            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? (
+              <EyeOff className="h-5 w-5 text-gray-400" />
+            ) : (
+              <Eye className="h-5 w-5 text-gray-400" />
+            )}
+          </button>
+        </div>
+
+        <div className="relative">
+          <input
+            type={showConfirmPassword ? 'text' : 'password'}
+            required
+            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Confirm Password"
+            value={signupData.confirmPassword}
+            onChange={(e) => setSignupData({ ...signupData, confirmPassword: e.target.value })}
+          />
+          <button
+            type="button"
+            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {showConfirmPassword ? (
+              <EyeOff className="h-5 w-5 text-gray-400" />
+            ) : (
+              <Eye className="h-5 w-5 text-gray-400" />
+            )}
+          </button>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          Create Account
+        </button>
+
+        <div className="text-center">
+          <p className="text-sm text-gray-600">
+            Already have an account?{' '}
+            <button
+              type="button"
+              onClick={() => setCurrentView('login')}
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
+              Sign in
+            </button>
+          </p>
+        </div>
+      </form>
+    </>
+  );
+
   return (
-    <div>
-      {view === 'login' ? (
-        <Login 
-          onNavigateToSignUp={() => setView('signup')}
-          onLogin={handleLogin}
-        />
-      ) : (
-        <SignUp 
-          onNavigateToLogin={() => setView('login')}
-          onSignUp={handleSignUp}
-        />
-      )}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 relative">
+        {currentView === 'login' ? <LoginView /> : <SignupView />}
+      </div>
     </div>
   );
 };
 
-export default AuthFlow;
+export default RoleBasedAuth;

@@ -1,10 +1,26 @@
 import React from 'react';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { HomePageProps, DashboardProps, StudentsProps, TeachersProps, ApplicationsProps, FeesManagementProps, EventsProps, WebViewProps, OnlinePaymentProps, PaymentHistoryProps, AssignmentsProps, ExamsProps, AttendanceProps, GradesProps, GradeHistoryProps, LeaveApprovalProps, LibraryBooksProps, PersonalInformationProps, ParentTeacherMeetingProps } from './@types/components';
+import RoleBasedAuth from './components/Authentication/Login_Authentication';
 import { StatusBar } from 'react-native';
 // import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AuthProvider } from './components/context/AuthContext';
+import ProtectedRoute from './components/navigation/ProtectRoute';
+import AppNavigator from './components/navigation/AppNavigator';
+
+// Import screens
 import HomePage from './components/Homepage';
-import Dashboard from './components/Dasboard/Dasboard';
+import Dashboard from './components/DashboardSection';
+import Students from './components/Students/Class/GradeHistory/GradeHistory';
+import Teachers from './components/Teachers/TeacherInformation';
+import Applications from './components/Students/Class/Grades/Grades';
+import FeesManagement from './components/FeeManagementSection';
+// import TransportDetails from './components/Students/';
+import Events from './components/Students/AdmissionForm/eventCalender/EventCalendar';
+
+// Import from existing structure
 import OnlinePayment from './components/Billing/OnlinePayment/OnlinePayment';
 import PaymentHistory from './components/Authentication/Login_Authentication';
 import Assignments from './components/Students/Class/Assignments/Assignments';
@@ -20,106 +36,197 @@ import EventCalendar from './components/Students/AdmissionForm/eventCalender/Eve
 import TeacherInformation from './components/Teachers/TeacherInformation';
 import WebViewScreen from './components/WebViewScreen';
 
-const Stack = createNativeStackNavigator();
+// Define the type for your navigation parameters
+type RootStackParamList = {
+  Login: undefined;
+  Home: undefined;
+  Dashboard: undefined;
+  Students: undefined;
+  Teachers: undefined;
+  Applications: undefined;
+  FeesManagement: undefined;
+  Events: undefined;
+  WebView: { uri: string };
+  OnlinePayment: undefined;
+  PaymentHistory: undefined;
+  Assignments: undefined;
+  Exams: undefined;
+  Attendance: undefined;
+  Grades: undefined;
+  GradeHistory: undefined;
+  LeaveApproval: undefined;
+  LibraryBooks: undefined;
+  PersonalInformation: undefined;
+  ParentTeacherMeeting: undefined;
+  EventCalendar: undefined;
+  TeacherInformation: undefined;
+};
 
-const App = () => {
+// Create a typed stack navigator
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+// Helper type for navigation props
+type ScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+// Wrapping component for protected routes
+const ProtectedScreen = <P extends object>(
+  Component: React.ComponentType<P & { navigation: ScreenNavigationProp }>
+): React.FC<P & { navigation: ScreenNavigationProp }> => {
+  return (props) => (
+    <ProtectedRoute>
+      <Component {...props} />
+    </ProtectedRoute>
+  );
+};
+
+const App: React.FC = () => {
   return (
-    
+    <AuthProvider>
       <NavigationContainer>
         <StatusBar
           barStyle="light-content"
           backgroundColor="#1a237e"
           translucent
         />
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={HomePage}
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: '#1a237e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        >
+          {/* Login screen should be defined here, but it's missing in your code */}
+          <Stack.Screen 
+            name="Login" 
+            component={RoleBasedAuth} 
+          />
+
+          {/* Home Screen */}
+          <Stack.Screen 
+            name="Home" 
+            component={ProtectedScreen(HomePage)} 
+          />
+
+          {/* Dashboard Screen */}
+          <Stack.Screen 
+            name="Dashboard" 
+            component={ProtectedScreen(Dashboard)} 
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={{ title: 'Dashboard' }}
+
+          {/* Students Screen */}
+          <Stack.Screen 
+            name="Students" 
+            component={ProtectedScreen(Students)} 
           />
-          <Stack.Screen
-            name="WebView"
-            component={WebViewScreen}
-            options={{ title: 'WebView' }}
+
+          {/* Teachers Screen */}
+          <Stack.Screen 
+            name="Teachers" 
+            component={ProtectedScreen(Teachers)} 
           />
+
+          {/* Applications Screen */}
+          <Stack.Screen 
+            name="Applications" 
+            component={ProtectedScreen(Applications)} 
+          />
+
+          {/* Fees Management Screen */}
+          <Stack.Screen 
+            name="FeesManagement" 
+            component={ProtectedScreen(FeesManagement)} 
+          />
+
+          {/* Events Screen */}
+          <Stack.Screen 
+            name="Events" 
+            component={ProtectedScreen(Events)} 
+          />
+
+          {/* WebView Screen */}
+          <Stack.Screen 
+            name="WebView" 
+            component={ProtectedScreen(WebViewScreen)} 
+          />
+
           {/* Billing Screens */}
-          <Stack.Screen
-            name="OnlinePayment"
-            component={OnlinePayment}
-            options={{ title: 'Online Payment' }}
+          <Stack.Screen 
+            name="OnlinePayment" 
+            component={ProtectedScreen(OnlinePayment)} 
           />
-          <Stack.Screen
-            name="PaymentHistory"
-            component={PaymentHistory}
-            options={{ title: 'Payment History' }}
+
+          <Stack.Screen 
+            name="PaymentHistory" 
+            component={ProtectedScreen(PaymentHistory)} 
           />
+
           {/* Class Screens */}
-          <Stack.Screen
-            name="Assignments"
-            component={Assignments}
-            options={{ title: 'Assignments' }}
+          <Stack.Screen 
+            name="Assignments" 
+            component={ProtectedScreen(Assignments)} 
           />
-          <Stack.Screen
-            name="Exams"
-            component={Exams}
-            options={{ title: 'Exams' }}
+
+          <Stack.Screen 
+            name="Exams" 
+            component={ProtectedScreen(Exams)} 
           />
-          <Stack.Screen
-            name="Attendance"
-            component={Attendance}
-            options={{ title: 'Attendance' }}
+
+          <Stack.Screen 
+            name="Attendance" 
+            component={ProtectedScreen(Attendance)} 
           />
-          <Stack.Screen
-            name="Grades"
-            component={Grades}
-            options={{ title: 'Grades' }}
+
+          <Stack.Screen 
+            name="Grades" 
+            component={ProtectedScreen(Grades)} 
           />
-          <Stack.Screen
-            name="GradeHistory"
-            component={GradeHistory}
-            options={{ title: 'Grade History' }}
+
+          <Stack.Screen 
+            name="GradeHistory" 
+            component={ProtectedScreen(GradeHistory)} 
           />
+
           {/* All Students Screens */}
-          <Stack.Screen
-            name="LeaveApproval"
-            component={LeaveApproval}
-            options={{ title: 'Leave Approval' }}
+          <Stack.Screen 
+            name="LeaveApproval" 
+            component={ProtectedScreen(LeaveApproval)} 
           />
-          <Stack.Screen
-            name="LibraryBooks"
-            component={LibraryBooks}
-            options={{ title: 'Library Books' }}
+
+          <Stack.Screen 
+            name="LibraryBooks" 
+            component={ProtectedScreen(LibraryBooks)} 
           />
+
           {/* Admission Form Screens */}
-          <Stack.Screen
-            name="PersonalInformation"
-            component={PersonalInformation}
-            options={{ title: 'Personal Information' }}
+          <Stack.Screen 
+            name="PersonalInformation" 
+            component={ProtectedScreen(PersonalInformation)} 
           />
-          <Stack.Screen
-            name="ParentTeacherMeeting"
-            component={ParentTeacherMeeting}
-            options={{ title: 'Parent Teacher Meeting' }}
+
+          <Stack.Screen 
+            name="ParentTeacherMeeting" 
+            component={ProtectedScreen(ParentTeacherMeeting)} 
           />
-          <Stack.Screen
-            name="EventCalendar"
-            component={EventCalendar}
-            options={{ title: 'Event Calendar' }}
+
+          <Stack.Screen 
+            name="EventCalendar" 
+            component={ProtectedScreen(EventCalendar)} 
           />
+
           {/* Teachers Screens */}
-          <Stack.Screen
-            name="TeacherInformation"
-            component={TeacherInformation}
-            options={{ title: 'Teacher Information' }}
+          <Stack.Screen 
+            name="TeacherInformation" 
+            component={ProtectedScreen(TeacherInformation)} 
           />
         </Stack.Navigator>
       </NavigationContainer>
-    
+    </AuthProvider>
   );
 };
 

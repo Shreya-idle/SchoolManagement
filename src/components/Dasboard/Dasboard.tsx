@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
+import { RootStackParamList, NavigationProps } from '../../@types/navigation';
+
+
+
+
 // Define types for menu items
 type MenuItem = {
   id: string;
@@ -39,7 +44,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   activeSubmenu,
   setActiveSubmenu
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
+
   const [icons, setIcons] = useState<Record<string, React.ComponentType<any>>>({});
 
   // Dynamically import lucide-react icons
@@ -61,10 +67,14 @@ const Sidebar: React.FC<SidebarProps> = ({
     loadIcons();
   }, []);
 
-  const handleNavigation = (path: string) => {
-    navigation.navigate(path);
-    setActiveMenu(path);
+  const handleNavigation = (path: keyof RootStackParamList) => {
+    navigation.navigate(path as keyof RootStackParamList);
+    setActiveMenu(path as string);
   };
+
+
+
+
 
   const menuItems: MenuItem[] = [
     {
@@ -228,7 +238,344 @@ const FeaturesPage: React.FC = () => <div className="p-8"><h1 className="text-2x
 const Dashboard: React.FC = () => {
   const [activeMenu, setActiveMenu] = useState<string>('dashboard');
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  return (
+    <div className="flex">
+      <Sidebar
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        activeSubmenu={activeSubmenu}
+        setActiveSubmenu={setActiveSubmenu}
+      />
+      <div className="flex-1">
+        <DashboardSection />
+        <FeeManagementSection />
+      </div>
+
+  const [activeMenu, setActiveMenu] = useState<string>('dashboard');
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
+  const navigation = useNavigation<NavigationProps>();
+
 
   return (
     <div className="flex">
