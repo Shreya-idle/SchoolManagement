@@ -1,21 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
-const Grades: React.FC = () => {
+const Grades: React.FC<{ grades: { subject: string; grade: string }[] }> = ({ grades }) => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Grades</Text>
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Math</Text>
-        <Text style={styles.cardText}>Grade: A</Text>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Science</Text>
-        <Text style={styles.cardText}>Grade: B+</Text>
-      </View>
+      {grades.map((item, index) => (
+        <View key={index} style={styles.card}>
+          <Text style={styles.cardTitle}>{item.subject}</Text>
+          <Text style={styles.cardText}>Grade: {item.grade}</Text>
+        </View>
+      ))}
     </ScrollView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

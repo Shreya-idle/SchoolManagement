@@ -14,12 +14,19 @@ interface List {
 
 interface AppState {
   lists: List[];
+  getTasksByListId: (id: string) => Task[];
+  dispatch: React.Dispatch<any>; // Add this line
 }
+
+
 
 // Initial state
 const appData: AppState = {
   lists: [],
+  getTasksByListId: (id: string) => [], // Placeholder function
+  dispatch: () => {}, // Placeholder function
 };
+
 
 // Reducer function
 const appStateReducer = (draft: AppState, action: { type: string; payload?: any }) => {
@@ -35,7 +42,7 @@ const appStateReducer = (draft: AppState, action: { type: string; payload?: any 
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
 
-export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
+  const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
   const [state, dispatch] = useImmerReducer(appStateReducer, appData);
   const { lists } = state;
 
@@ -44,16 +51,19 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
   };
 
   return (
-    <AppStateContext.Provider value={{ lists, getTasksByListId, dispatch }}>
+<AppStateContext.Provider value={{ lists, getTasksByListId, dispatch }}>
+
       {children}
     </AppStateContext.Provider>
   );
 };
 
-export const useAppState = () => {
+  const useAppState = () => {
   const context = useContext(AppStateContext);
   if (!context) {
     throw new Error('useAppState must be used within an AppStateProvider');
   }
   return context;
 };
+export default AppStateProvider;
+export {useAppState};

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Header from './Header.tsx'; // Ensure Header is also converted to TypeScript
+import Header from '../components/Header'; // Ensure Header is also converted to TypeScript
 
 
 // Define props for the OtherScreen component
