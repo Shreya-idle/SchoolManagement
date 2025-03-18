@@ -1,6 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NativeStackNavigationProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"; 
 
 // Define your root stack param list
 type RootStackParamList = {

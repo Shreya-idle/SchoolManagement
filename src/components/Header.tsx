@@ -50,12 +50,21 @@ const Header: React.FC<HeaderProps> = ({ onLogout }) => {
     return (
       <View style={styles.header}>
         <View style={styles.iconsContainer}>
-          <TouchableOpacity onPress={() => console.log('Notifications')}>
-            <Image source={require('./path/to/notification-icon.png')} resizeMode="cover" style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onLogout}>
-            <Image source={require('./path/to/profile-icon.png')} resizeMode="cover" style={styles.icon} />
-          </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('Notifications')}>
+  <Image 
+    source={require('./path/to/notification.jpg')} 
+    resizeMode="cover" 
+    style={styles.icon} 
+  />
+</TouchableOpacity>
+
+<TouchableOpacity onPress={onLogout}>
+  <Image 
+    source={require('./path/to/profile-icon.jpg')} 
+    resizeMode="cover" 
+    style={styles.icon} 
+  />
+</TouchableOpacity>
         </View>
       </View>
     );

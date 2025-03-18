@@ -1,9 +1,10 @@
 import React from 'react';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomePageProps, DashboardProps, StudentsProps, TeachersProps, ApplicationsProps, FeesManagementProps, EventsProps, WebViewProps, OnlinePaymentProps, PaymentHistoryProps, AssignmentsProps, ExamsProps, AttendanceProps, GradesProps, GradeHistoryProps, LeaveApprovalProps, LibraryBooksProps, PersonalInformationProps, ParentTeacherMeetingProps } from './@types/components';
 import RoleBasedAuth from './components/Authentication/Login_Authentication';
+
 import { StatusBar } from 'react-native';
 // import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './components/context/AuthContext';
@@ -60,6 +61,9 @@ type RootStackParamList = {
   ParentTeacherMeeting: undefined;
   EventCalendar: undefined;
   TeacherInformation: undefined;
+  Header: undefined;
+  Homepage: undefined;
+  Otherscreens: { screen: string; params?: object };
 };
 
 // Create a typed stack navigator
@@ -101,6 +105,8 @@ const App: React.FC = () => {
           }}
         >
           {/* Login screen should be defined here, but it's missing in your code */}
+          
+
           <Stack.Screen 
             name="Login" 
             component={RoleBasedAuth} 

@@ -11,7 +11,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Create a provider component
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const login = () => {
@@ -30,10 +30,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 // Create a custom hook to use the AuthContext
-export const useAuth = () => {
+  const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
+export default AuthProvider;
+export {useAuth};
